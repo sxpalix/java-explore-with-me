@@ -1,4 +1,4 @@
-package ru.practicum.model.exception;
+package ru.practicum.exception;
 
 
 import lombok.extern.slf4j.Slf4j;
@@ -16,5 +16,12 @@ public class ExceptionController {
     public Exception constraintViolationError(final Exception e) {
         log.debug("Get status 400 {}", e.getMessage(), e);
         return new Exception(e.getMessage());
+    }
+
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ValidationException constraintViolationError(final ValidationException e) {
+        log.debug("Get status 400 {}", e.getMessage(), e);
+        return new ValidationException(e.getMessage());
     }
 }
