@@ -26,16 +26,16 @@ import java.time.LocalDateTime;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class StatsHitDto {
     @NotBlank(message = "Параметр app не должен быть пустым")
-    String app;
+    private String app;
     @NotBlank(message = "Параметр uri не должен быть пустым")
-    String uri;
+    private String uri;
     @NotBlank(message = "Параметр ip не должен быть пустым")
-    String ip;
+    private String ip;
     @NotNull
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+3")
     @JsonProperty("timestamp")
-    LocalDateTime timestamp;
+    private LocalDateTime timestamp;
 }

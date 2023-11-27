@@ -18,7 +18,7 @@ import java.util.List;
 @AllArgsConstructor
 @Transactional
 public class StatsServiceImpl implements StatsService {
-    private StatsRepository repository;
+    private final StatsRepository repository;
 
     @Override
     @Transactional
@@ -28,7 +28,7 @@ public class StatsServiceImpl implements StatsService {
     }
 
     @Override
-    @Transactional(readOnly = true)
+    @Transactional
     public List<ViewStats> getStats(LocalDateTime start, LocalDateTime end, List<String> uris, Boolean unique) {
         if (end.isBefore(start) || start.isAfter(end)) {
             throw new ValidationException("Время старта должно быть раньше времени окончания хитов");

@@ -16,5 +16,5 @@ public class ViewStats {
 
     @NotBlank(message = "Параметр uri не должен быть пустым")
     private String uri;
-    Long hits;
+    private Long hits;
 }

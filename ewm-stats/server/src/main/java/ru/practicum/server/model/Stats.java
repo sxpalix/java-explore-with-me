@@ -6,7 +6,8 @@ import javax.persistence.*;
 
 import java.time.LocalDateTime;
 
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
@@ -15,13 +16,13 @@ import java.time.LocalDateTime;
 public class Stats {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    int id;
+    private int id;
     @Column(name = "app")
-    String app;
+    private String app;
     @Column(name = "uri")
-    String uri;
+    private String uri;
     @Column(name = "ip")
-    String ip;
+    private String ip;
     @Column(name = "timestamp")
-    LocalDateTime timestamp;
+    private LocalDateTime timestamp;
 }
