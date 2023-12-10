@@ -1,8 +1,33 @@
 version: '3.8'
-
-
-
 services:
+  main-service:
+    build: main-service
+    container_name: ewm_main_server
+    depends_on:
+      - main-db
+      - server
+    ports:
+      - "8080:8080"
+    environment:
+      #- TZ=Europe/Moscow
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://main-db:5432/main
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - STAT_SERVER_URL=http://stats-server:9090
+
+
+  main-db:
+    image: postgres:13.7-alpine
+    container_name: ewm-main-db
+
+    ports:
+      - "6541:5432"
+    environment:
+      #- TZ=Europe/Moscow
+      - POSTGRES_DB=main
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+
   server:
     build: ewm-stats/server
     container_name: ewm_stats_server
@@ -21,10 +46,9 @@ services:
     container_name: ewm-stats-db
 
     ports:
-    - "6541:5432"
+    - "6542:5432"
     environment:
     #- TZ=Europe/Moscow
     - POSTGRES_DB=stats
     - POSTGRES_USER=postgres
     - POSTGRES_PASSWORD=postgres
-

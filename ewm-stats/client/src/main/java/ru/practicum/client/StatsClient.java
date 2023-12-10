@@ -1,12 +1,13 @@
 package ru.practicum.client;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.MediaType;
+
+import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 import ru.practicum.model.dto.StatsHitDto;
 import ru.practicum.model.dto.ViewStats;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Slf4j
@@ -17,15 +18,13 @@ public class StatsClient {
         client = WebClient.builder().baseUrl(baseUrl).build();
     }
 
-    public ResponseEntity<StatsHitDto> postHit(StatsHitDto dto) {
-        return client.post()
-                .uri(String.join("", "/hit"))
-                .bodyValue(dto)
+    public void saveHit(StatsHitDto hit) {
+        client.post()
+                .uri("/hit")
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(BodyInserters.fromValue(hit))
                 .retrieve()
-                .toEntity(StatsHitDto.class)
-                .doOnSuccess(s -> log.info("web client. successful transition of dto = [app = {}, uri = {}, ip = {}, timestamp = {}]",
-                        dto.getApp(), dto.getUri(), dto.getIp(), dto.getTimestamp()))
-                .doOnError(s -> log.info("Error create hitStats"))
+                .bodyToMono(Void.class)
                 .block();
     }
 
