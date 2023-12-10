@@ -2,6 +2,8 @@ package ru.practicum.events.service;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import ru.practicum.categories.model.Category;
+import ru.practicum.categories.repository.CategoryRepository;
 import ru.practicum.events.dto.EventUpdateDto;
 import ru.practicum.events.model.Event;
 import ru.practicum.exception.NotFoundException;
@@ -13,7 +15,7 @@ import ru.practicum.locations.repository.LocationRepository;
 @Service
 @AllArgsConstructor
 public class UpdateHelper {
-    private final CategoriesRepository categoriesRepository;
+    private final CategoryRepository categoriesRepository;
     private final LocationRepository locationRepository;
 
     public Event updateEvent(Event event, EventUpdateDto dto) {

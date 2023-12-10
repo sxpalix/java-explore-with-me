@@ -1,6 +1,7 @@
 package ru.practicum.events.model;
 
 import lombok.*;
+import ru.practicum.categories.model.Category;
 import ru.practicum.locations.model.Location;
 import ru.practicum.requests.model.ParticipationRequest;
 import ru.practicum.users.model.User;
@@ -10,7 +11,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
-@Table(name = "events")
+@Table(name = "events", schema = "public")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -53,3 +54,4 @@ public class Event {
     private State state;
     @Column(name = "title")
     private String title;
+}

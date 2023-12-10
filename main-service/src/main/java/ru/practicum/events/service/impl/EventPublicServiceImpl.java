@@ -52,7 +52,7 @@ public class EventPublicServiceImpl implements EventPublicService {
                                                 boolean onlyAvailable,
                                                 LocalDateTime rangeEnd,
                                                 SortBy sort, int from, int size) {
-        List<Event> events = new ArrayList();
+        List<Event> events = new ArrayList<>();
         if (rangeStart == null) {
             rangeStart = LocalDateTime.now();
         }

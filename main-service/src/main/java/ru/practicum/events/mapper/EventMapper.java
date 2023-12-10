@@ -1,6 +1,7 @@
 package ru.practicum.events.mapper;
 
 import lombok.experimental.UtilityClass;
+import ru.practicum.categories.dto.CategoryMapper;
 import ru.practicum.events.dto.EventDto;
 import ru.practicum.events.dto.EventFullDto;
 import ru.practicum.events.dto.EventShortDto;
