@@ -1,10 +1,7 @@
 package ru.practicum.requests.controllers;
 
 import lombok.AllArgsConstructor;
-import lombok.Generated;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.requests.dto.ParticipationRequestDto;

@@ -18,7 +18,7 @@ public class StatsClient {
         client = WebClient.builder().baseUrl(baseUrl).build();
     }
 
-    public void saveHit(StatsHitDto hit) {
+    public void postHit(StatsHitDto hit) {
         client.post()
                 .uri("/hit")
                 .contentType(MediaType.APPLICATION_JSON)
