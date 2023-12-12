@@ -15,8 +15,8 @@ import java.util.List;
 @Data
 @Builder
 public class CompilationsUpdateDto {
-    List<Long> events;
-    Boolean pinned;
+    private List<Long> events;
+    private Boolean pinned;
     @Size(min = 1, max = 50)
-    String title;
+    private String title;
 }

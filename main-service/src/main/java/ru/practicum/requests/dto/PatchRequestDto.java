@@ -13,6 +13,6 @@ import java.util.List;
 @Builder
 @Data
 public class PatchRequestDto {
-    List<Long> requestIds;
-    ParticipationRequestState status;
+    private List<Long> requestIds;
+    private ParticipationRequestState status;
 }
