@@ -1,4 +1,4 @@
-package ru.practicum.users;
+package ru.practicum.users.controller;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -34,7 +34,7 @@ public class UserController {
     @ResponseStatus(HttpStatus.CREATED)
     public User create(@Valid @RequestBody UserDto userDto) {
         log.info("\nPOST [http://localhost:8080/admin/users] : запрос на создание пользователя {}\n", userDto);
-        return service.postUser(userDto);
+        return service.createUser(userDto);
     }
 
     @DeleteMapping("/{userId}")

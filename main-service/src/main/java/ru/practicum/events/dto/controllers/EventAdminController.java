@@ -1,14 +1,13 @@
-package ru.practicum.events.controllers;
+package ru.practicum.events.dto.controllers;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.events.dto.EventFullDto;
 import ru.practicum.events.dto.EventUpdateDto;
 import ru.practicum.events.model.State;
-import ru.practicum.events.service.interfaces.AdminEventService;
+import ru.practicum.events.service.interfaces.EventService;
 
 import javax.validation.Valid;
 import java.time.LocalDateTime;
@@ -16,11 +15,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping({"/admin/events"})
-@Validated
 @AllArgsConstructor
 @Slf4j
 public class EventAdminController {
-    private final AdminEventService service;
+    private final EventService service;
 
     @GetMapping
     public List<EventFullDto> getAllEventByParameters(
@@ -36,13 +34,13 @@ public class EventAdminController {
                 "&categories={}&rangeStart={}&rangeEnd={}&from={}&size={}] : " +
                 "запрос от администратора на просмотр событий по фильтрам\n",
                 users, states, categories, rangeStart, rangeEnd, from, size);
-        return this.service.getAllEventByParameters(users, states, categories, rangeStart, rangeEnd, from, size);
+        return service.getAllEventByParameters(users, states, categories, rangeStart, rangeEnd, from, size);
     }
 
     @PatchMapping({"/{eventId}"})
-    public EventFullDto patchEventByAdmin(@PathVariable long eventId, @RequestBody @Valid EventUpdateDto dto) {
+    public EventFullDto updateEventByAdmin(@PathVariable long eventId, @RequestBody @Valid EventUpdateDto dto) {
         log.info("\nPATCH [http://localhost:8080/admin/events/{}] : " +
                 "запрос на обновление события с ID {} администратором \n{}\n", eventId, eventId, dto);
-        return this.service.patchEventByAdmin(eventId, dto);
+        return service.updateEventByAdmin(eventId, dto);
     }
 }

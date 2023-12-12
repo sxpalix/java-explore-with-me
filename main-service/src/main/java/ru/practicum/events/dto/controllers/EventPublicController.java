@@ -1,16 +1,15 @@
-package ru.practicum.events.controllers;
+package ru.practicum.events.dto.controllers;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.client.StatsClient;
 import ru.practicum.events.dto.EventFullDto;
 import ru.practicum.events.dto.EventShortDto;
 import ru.practicum.events.model.SortBy;
-import ru.practicum.events.service.interfaces.EventPublicService;
+import ru.practicum.events.service.interfaces.EventService;
 import ru.practicum.model.dto.StatsHitDto;
 
 import javax.annotation.PostConstruct;
@@ -23,9 +22,8 @@ import java.util.List;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping({"/events"})
-@Validated
 public class EventPublicController {
-    private final EventPublicService service;
+    private final EventService service;
 
     @Value("${STAT_SERVER_URL:http://localhost:9090}")
     private String statClientUrl;
@@ -33,7 +31,7 @@ public class EventPublicController {
 
     @PostConstruct
     private void init() {
-        this.client = new StatsClient(this.statClientUrl);
+        client = new StatsClient(statClientUrl);
     }
 
     @GetMapping
@@ -47,24 +45,24 @@ public class EventPublicController {
             @RequestParam(defaultValue = "0") int from, @RequestParam(defaultValue = "10") int size,
             HttpServletRequest httpServletRequest) {
         log.info("\nGET [http://localhost:8080/events] : запрос на просмотр событий по фильтрам\n");
-        this.client.postHit(StatsHitDto.builder()
+        client.postHit(StatsHitDto.builder()
                 .app("ewm-main-server")
                 .ip(httpServletRequest.getRemoteAddr())
                 .timestamp(LocalDateTime.now())
                 .uri(httpServletRequest.getRequestURI())
                 .build());
-        return this.service.getEventsByParam(text, categories, paid, rangeStart, onlyAvailable, rangeEnd, sort, from, size);
+        return service.getEventsByParam(text, categories, paid, rangeStart, onlyAvailable, rangeEnd, sort, from, size);
     }
 
     @GetMapping({"/{id}"})
     public EventFullDto getById(@PathVariable long id, HttpServletRequest httpServletRequest) {
         log.info("\nGET [http://localhost:8080/events/{}] : запрос на просмотр события по ID {}\n", id, id);
-        this.client.postHit(StatsHitDto.builder()
+        client.postHit(StatsHitDto.builder()
                 .app("ewm-main-server")
                 .ip(httpServletRequest.getRemoteAddr())
                 .timestamp(LocalDateTime.now())
                 .uri(httpServletRequest.getRequestURI())
                 .build());
-        return this.service.getById(id, httpServletRequest.getRequestURI());
+        return service.getById(id, httpServletRequest.getRequestURI());
     }
 }

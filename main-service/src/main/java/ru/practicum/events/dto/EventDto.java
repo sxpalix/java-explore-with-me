@@ -30,9 +30,9 @@ public class EventDto {
     @NotNull
     private LocalDateTime eventDate;
     private LocationDto location;
-    private Boolean paid;
+    private boolean paid;
     private Long participantLimit;
-    private Boolean requestModeration;
+    private boolean requestModeration;
     @NotBlank(message = "Field: title. Error: must not be blank. Value: null")
     @Size(min = 3, max = 120)
     private String title;

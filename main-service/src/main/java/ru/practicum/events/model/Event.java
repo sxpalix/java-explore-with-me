@@ -18,6 +18,9 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 public class Event {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
     @Column(name = "annotations")
     private String annotation;
     @ManyToOne
@@ -32,9 +35,6 @@ public class Event {
     private String description;
     @Column(name = "event_date")
     private LocalDateTime eventDate;
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
     @ManyToOne
     @JoinColumn(name = "initiator_id")
     private User initiator;

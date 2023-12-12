@@ -25,7 +25,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Transactional
-    public User postUser(UserDto user) {
+    public User createUser(UserDto user) {
         return repository.save(UserMapper.dtoToUser(user));
     }
 

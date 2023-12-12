@@ -8,7 +8,7 @@ import java.util.List;
 public interface UserService {
     List<User> getAllUsers(int from, int size, List<Long> ids);
 
-    User postUser(UserDto user);
+    User createUser(UserDto user);
 
     void deleteUser(long userId);
 }
