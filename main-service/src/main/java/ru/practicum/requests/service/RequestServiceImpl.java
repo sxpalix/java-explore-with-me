@@ -103,7 +103,7 @@ public class RequestServiceImpl implements RequestService {
         if (event.getInitiator().getId() == userId)
             throw new RequestException("The event initiator cannot add a request to participate in his event");
 
-        long confirmedRequests = repository.findCountByEventId(eventId).orElse(0L);
+        long confirmedRequests = event.getConfirmedRequests();
 
         if (event.getParticipantLimit() != 0L && confirmedRequests >= event.getParticipantLimit())
             throw new RequestException("Request limit exceeded");
