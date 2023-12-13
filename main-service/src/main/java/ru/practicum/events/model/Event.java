@@ -21,7 +21,7 @@ public class Event {
     private long id;
     @Column(name = "annotations")
     private String annotation;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "category_id")
     private Category category;
     @Column(name = "created_on")

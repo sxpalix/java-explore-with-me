@@ -4,7 +4,7 @@ import lombok.*;
 import ru.practicum.events.model.Event;
 
 import javax.persistence.*;
-import java.util.Set;
+import java.util.List;
 
 @Entity
 @Table(name = "compilations")
@@ -25,5 +25,5 @@ public class Compilations {
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "compilations_events", joinColumns = @JoinColumn(name = "compilation_id"),
             inverseJoinColumns = @JoinColumn(name = "event_id"))
-    private Set<Event> events;
+    private List<Event> events;
 }

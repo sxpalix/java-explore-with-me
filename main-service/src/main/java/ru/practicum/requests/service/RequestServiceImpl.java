@@ -72,6 +72,7 @@ public class RequestServiceImpl implements RequestService {
                         resultUpdate.getConfirmedRequests().add(RequestMapper.toDto(req));
                         --mayBeApprove;
                         event.setConfirmedRequests(event.getConfirmedRequests() + 1L);
+                        eventsRepository.save(event);
                         break;
                     case REJECTED:
                         req.setStatus(ParticipationRequestState.REJECTED);
@@ -80,7 +81,7 @@ public class RequestServiceImpl implements RequestService {
             }
         }
         repository.saveAll(toApprove);
-        eventsRepository.save(event);
+
         return resultUpdate;
     }
 
@@ -105,7 +106,7 @@ public class RequestServiceImpl implements RequestService {
 
         long confirmedRequests = event.getConfirmedRequests();
 
-        if (event.getParticipantLimit() != 0L && confirmedRequests >= event.getParticipantLimit())
+        if (event.getParticipantLimit() != 0 && confirmedRequests >= event.getParticipantLimit())
             throw new RequestException("Request limit exceeded");
 
         ParticipationRequest request = ParticipationRequest
@@ -119,7 +120,7 @@ public class RequestServiceImpl implements RequestService {
             request.setStatus(ParticipationRequestState.PENDING);
         else {
             request.setStatus(ParticipationRequestState.CONFIRMED);
-            event.setConfirmedRequests(event.getConfirmedRequests());
+            event.setConfirmedRequests(event.getConfirmedRequests() + 1);
             eventsRepository.save(event);
         }
 

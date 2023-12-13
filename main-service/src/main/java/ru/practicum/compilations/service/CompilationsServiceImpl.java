@@ -14,10 +14,7 @@ import ru.practicum.events.model.Event;
 import ru.practicum.events.repository.EventsRepository;
 import ru.practicum.exception.NotFoundException;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -53,7 +50,7 @@ public class CompilationsServiceImpl implements CompilationsService {
         Compilations compilation = Compilations.builder()
                 .title(dto.getTitle())
                 .pinned(dto.getPinned())
-                .events(new HashSet<>(events))
+                .events(events)
                 .build();
         return CompilationsMapper.toDto(repository.save(compilation));
     }
@@ -75,7 +72,7 @@ public class CompilationsServiceImpl implements CompilationsService {
         Optional.ofNullable(dto.getPinned()).ifPresent(compilations::setPinned);
 
         if (dto.getEvents() != null && !dto.getEvents().isEmpty()) {
-            compilations.setEvents(new HashSet<>(eventsRepository.findAllById(dto.getEvents())));
+            compilations.setEvents(eventsRepository.findAllById(dto.getEvents()));
         }
 
         return CompilationsMapper.toDto(repository.save(compilations));
