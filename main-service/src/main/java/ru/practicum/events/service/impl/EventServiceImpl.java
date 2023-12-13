@@ -120,6 +120,7 @@ public class EventServiceImpl implements EventService {
                     updatedEvent.setState(State.CANCELED);
             }
         }
+
         return EventMapper.toFullDto(repository.save(updatedEvent));
     }
 
