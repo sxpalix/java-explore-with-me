@@ -6,6 +6,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.practicum.requests.repository.RequestsRepository;
 import ru.practicum.utils.Constants;
 import ru.practicum.categories.model.Category;
 import ru.practicum.categories.repository.CategoryRepository;
@@ -29,7 +30,6 @@ import ru.practicum.locations.dto.LocationMapper;
 import ru.practicum.locations.model.Location;
 import ru.practicum.locations.repository.LocationRepository;
 import ru.practicum.model.dto.ViewStats;
-import ru.practicum.requests.model.ParticipationRequestState;
 import ru.practicum.users.model.User;
 import ru.practicum.users.repository.UserRepository;
 
@@ -46,6 +46,7 @@ public class EventServiceImpl implements EventService {
     private final UserRepository userRepository;
     private final CategoryRepository categoriesRepository;
     private final LocationRepository locationRepository;
+    private final RequestsRepository requestsRepository;
 
     @Value("${STAT_SERVER_URL:http://localhost:9090}")
     private String statClientUrl;
@@ -80,6 +81,7 @@ public class EventServiceImpl implements EventService {
         eventToCreate.setLocation(createNewLocation(eventCreateDto.getLocation()));
         eventToCreate.setCreatedOn(LocalDateTime.now());
         eventToCreate.setState(State.PENDING);
+        eventToCreate.setConfirmedRequests(0L);
         return EventMapper.toFullDto(repository.save(eventToCreate));
     }
 
@@ -93,9 +95,9 @@ public class EventServiceImpl implements EventService {
 
     public EventFullDto getEventByIdAndUserId(long userId, long eventId) {
         getUserById(userId);
-        Event event = repository.findEventByIdAndInitiator_Id(eventId, userId).orElseThrow();
-
-        return EventMapper.toFullDto(event);
+        Event event = repository.findEventByIdAndInitiator_Id(eventId, userId).orElseThrow(() ->
+                new NotFoundException(String.format("Event with id= %d was not found", eventId)));
+        return EventMapper.toFullDto(repository.save(event));
     }
 
     @Transactional
@@ -155,9 +157,7 @@ public class EventServiceImpl implements EventService {
 
         if (onlyAvailable) {
             events = events.stream().filter((event) ->
-                            event.getRequests().stream().filter((sizeEvent) ->
-                                            sizeEvent.getStatus().equals(ParticipationRequestState.CONFIRMED))
-                                    .count() < event.getParticipantLimit() || !event.getRequestModeration())
+                            event.getConfirmedRequests() < event.getParticipantLimit() || !event.getRequestModeration())
                     .collect(Collectors.toList());
         }
 
@@ -241,7 +241,6 @@ public class EventServiceImpl implements EventService {
                     event.setState(State.CANCELED);
             }
         }
-
         return EventMapper.toFullDto(repository.save(updated));
     }
 

@@ -3,12 +3,10 @@ package ru.practicum.events.model;
 import lombok.*;
 import ru.practicum.categories.model.Category;
 import ru.practicum.locations.model.Location;
-import ru.practicum.requests.model.ParticipationRequest;
 import ru.practicum.users.model.User;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Entity
 @Table(name = "events", schema = "public")
@@ -23,19 +21,16 @@ public class Event {
     private long id;
     @Column(name = "annotations")
     private String annotation;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")
     private Category category;
-    @OneToMany
-    @JoinColumn(name = "event_id")
-    private List<ParticipationRequest> requests;
     @Column(name = "created_on")
     private LocalDateTime createdOn;
     @Column(name = "description")
     private String description;
     @Column(name = "event_date")
     private LocalDateTime eventDate;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "initiator_id")
     private User initiator;
     @OneToOne
@@ -54,4 +49,6 @@ public class Event {
     private State state;
     @Column(name = "title")
     private String title;
+    @Column(name = "confirmed_requests")
+    private long confirmedRequests;
 }

@@ -28,6 +28,7 @@ CREATE TABLE IF NOT EXISTS events
     initiator_id       BIGINT                      NOT NULL,
     category_id        BIGINT                      NOT NULL,
     location_id        BIGINT                      NOT NULL,
+    confirmed_requests BIGINT                      NOT NULL,
     title              VARCHAR(120)                NOT NULL,
     annotations        VARCHAR(2000)               NOT NULL,
     description        VARCHAR(7000)               NOT NULL,
