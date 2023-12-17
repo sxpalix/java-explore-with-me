@@ -65,4 +65,11 @@ public class EventPublicController {
                 .build());
         return service.getById(id, httpServletRequest.getRequestURI());
     }
+
+    @GetMapping("/locations/{distance}")
+    public List<EventShortDto> getEventByZone(@PathVariable float distance, @RequestParam float lat, @RequestParam float lon) {
+        log.info("\nGET [http://localhost:8080/events/locations/{}] : " +
+                "запрос на поиск всех событий рядом с текущей локацией {}/ {}\n", distance, lat, lon);
+        return service.getEventByLocation(distance, lat, lon);
+    }
 }
