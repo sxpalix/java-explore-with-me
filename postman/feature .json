@@ -550,7 +550,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n  \"annotation\": \"Общегородская сходка готов\",\r\n  \"category\": {{c2id}},\r\n  \"description\": \"fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff\",\r\n  \"eventDate\": \"2023-12-18 23:50:00\",\r\n  \"location\": {\r\n    \"id\": {{l3id}}\r\n  },\r\n  \"paid\": false,\r\n  \"participantLimit\": 30,\r\n  \"requestModeration\": true,\r\n  \"title\": \"ааааааааааааааааававававававааааааааааааааааа\"\r\n}",
+					"raw": "{\r\n  \"annotation\": \"Общегородская сходка готов\",\r\n  \"category\": {{c2id}},\r\n  \"description\": \"fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff\",\r\n  \"eventDate\": \"2024-12-18 23:50:00\",\r\n  \"location\": {\r\n    \"id\": {{l3id}}\r\n  },\r\n  \"paid\": false,\r\n  \"participantLimit\": 30,\r\n  \"requestModeration\": true,\r\n  \"title\": \"ааааааааааааааааававававававааааааааааааааааа\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
