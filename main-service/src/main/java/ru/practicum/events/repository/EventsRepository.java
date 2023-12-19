@@ -68,4 +68,6 @@ public interface EventsRepository extends JpaRepository<Event, Long> {
             "(select l.id from Location as l " +
             "where distance(l.lat, l.lon, :latZone, :lonZone) <= :lonRad)")
     List<Event> findEventsByLocationZone(float latZone, float lonZone, float lonRad);
+
+    List<Event> findAllByLocation_Id(long locId);
 }

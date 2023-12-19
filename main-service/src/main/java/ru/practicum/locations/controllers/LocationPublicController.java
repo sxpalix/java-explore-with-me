@@ -2,7 +2,6 @@ package ru.practicum.locations.controllers;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.locations.dto.LocationDto;
 import ru.practicum.locations.service.LocationService;
@@ -12,7 +11,6 @@ import javax.validation.constraints.PositiveOrZero;
 import java.util.List;
 
 @Slf4j
-@Validated
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/locations")
