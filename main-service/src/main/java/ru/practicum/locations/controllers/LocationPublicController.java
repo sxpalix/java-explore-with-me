@@ -2,6 +2,7 @@ package ru.practicum.locations.controllers;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.locations.dto.LocationDto;
 import ru.practicum.locations.service.LocationService;
@@ -13,6 +14,7 @@ import java.util.List;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
+@Validated
 @RequestMapping("/locations")
 public class LocationPublicController {
     private final LocationService service;
@@ -25,7 +27,7 @@ public class LocationPublicController {
     }
 
     @GetMapping("/{locId}")
-    public LocationDto getLocationById(@PathVariable long locId) {
+    public LocationDto getLocationById(@PathVariable @Positive long locId) {
         log.info("Get-запрос: получение добавленной админом локации по id {}", locId);
         return service.getLocationById(locId);
     }
