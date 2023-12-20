@@ -40,4 +40,6 @@ public interface EventService {
                                                int size);
 
     EventFullDto updateEventByAdmin(long eventId, EventUpdateDto dto);
+
+    List<EventShortDto> getEventByLocation(float distance, float lat, float lon);
 }

@@ -61,4 +61,13 @@ public interface EventsRepository extends JpaRepository<Event, Long> {
                                                 @Param("rangeStart") LocalDateTime rangeStart,
                                                 @Param("rangeEnd") LocalDateTime rangeEnd,
                                                 Pageable pageable);
+
+    @Query("from Event as e " +
+            "where e.state = 'PUBLISHED' " +
+            "and e.location.id in " +
+            "(select l.id from Location as l " +
+            "where distance(l.lat, l.lon, :latZone, :lonZone) <= :lonRad)")
+    List<Event> findEventsByLocationZone(float latZone, float lonZone, float lonRad);
+
+    List<Event> findAllByLocation_Id(long locId);
 }

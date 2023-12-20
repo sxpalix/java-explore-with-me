@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import ru.practicum.locations.dto.LocationDto;
+import ru.practicum.locations.dto.LocationCreationDto;
 
 import javax.validation.constraints.Future;
 import javax.validation.constraints.Size;
@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 @Builder
 public class EventUpdateDto {
     private Long category;
-    private LocationDto location;
+    private LocationCreationDto location;
     @Size(min = 3, max = 120)
     private String title;
     @Size(min = 20, max = 2000)

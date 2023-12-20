@@ -6,6 +6,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.practicum.locations.dto.LocationCreationDto;
 import ru.practicum.requests.repository.RequestsRepository;
 import ru.practicum.utils.Constants;
 import ru.practicum.categories.model.Category;
@@ -25,7 +26,6 @@ import ru.practicum.events.service.interfaces.EventService;
 import ru.practicum.exception.DateTimeException;
 import ru.practicum.exception.NotFoundException;
 import ru.practicum.exception.RequestException;
-import ru.practicum.locations.dto.LocationDto;
 import ru.practicum.locations.dto.LocationMapper;
 import ru.practicum.locations.model.Location;
 import ru.practicum.locations.repository.LocationRepository;
@@ -76,9 +76,12 @@ public class EventServiceImpl implements EventService {
         }
 
         Event eventToCreate = EventMapper.fromEventDtoToEvent(eventCreateDto);
+        if (eventCreateDto.getLocation().getId() != 0L)
+            eventToCreate.setLocation(locationRepository.findById(eventCreateDto.getLocation().getId()).get());
+            else eventToCreate.setLocation(this.createNewLocation(eventCreateDto.getLocation()));
+
         eventToCreate.setCategory(getCategoryById(eventCreateDto.getCategory()));
         eventToCreate.setInitiator(getUserById(userId));
-        eventToCreate.setLocation(createNewLocation(eventCreateDto.getLocation()));
         eventToCreate.setCreatedOn(LocalDateTime.now());
         eventToCreate.setState(State.PENDING);
         eventToCreate.setConfirmedRequests(0L);
@@ -245,6 +248,17 @@ public class EventServiceImpl implements EventService {
         return EventMapper.toFullDto(repository.save(updated));
     }
 
+    public List<EventShortDto> getEventByLocation(float distance, float lat, float lon) {
+        if ((double)lat == 0.0) {
+            throw new RequestException("Lat mustn't be 0.0");
+        } else if ((double)lon == 0.0) {
+            throw new RequestException("Lon mustn't be 0.0");
+        } else {
+            return repository.findEventsByLocationZone(lat, lon, distance)
+                    .stream().map(EventMapper::toEventShortDto).collect(Collectors.toList());
+        }
+    }
+
     private Event returnUpdatedEvent(Event event, EventUpdateDto dto) {
         if (dto.getAnnotation() != null) event.setAnnotation(dto.getAnnotation());
 
@@ -253,8 +267,9 @@ public class EventServiceImpl implements EventService {
         if (dto.getEventDate() != null) event.setEventDate(dto.getEventDate());
 
         if (dto.getLocation() != null &&
-                dto.getLocation().equals(LocationMapper.toLocationDto(event.getLocation())))
-            event.setLocation(createNewLocation(dto.getLocation()));
+                dto.getLocation().equals(LocationMapper.fromLocationToCreateDto(event.getLocation()))) {
+            event.setLocation(this.createNewLocation(dto.getLocation()));
+        }
 
         if (dto.getPaid() != null) event.setPaid(dto.getPaid());
         if (dto.getParticipantLimit() != null) event.setParticipantLimit(dto.getParticipantLimit());
@@ -269,7 +284,7 @@ public class EventServiceImpl implements EventService {
                 new NotFoundException(String.format("User with id= %s was not found", categoryId)));
     }
 
-    private Location createNewLocation(LocationDto dto) {
-        return locationRepository.save(LocationMapper.toLocation(dto));
+    private Location createNewLocation(LocationCreationDto dto) {
+        return locationRepository.save(LocationMapper.fromLocationCreateToLocation(dto));
     }
 }

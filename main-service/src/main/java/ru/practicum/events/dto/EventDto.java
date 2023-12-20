@@ -6,7 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.validation.annotation.Validated;
-import ru.practicum.locations.dto.LocationDto;
+import ru.practicum.locations.dto.LocationCreationDto;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -29,12 +29,11 @@ public class EventDto {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     @NotNull
     private LocalDateTime eventDate;
-    private LocationDto location;
+    private LocationCreationDto location;
     private Boolean paid;
     private Long participantLimit;
     private Boolean requestModeration;
     @NotBlank(message = "Field: title. Error: must not be blank. Value: null")
     @Size(min = 3, max = 120)
     private String title;
-
 }
